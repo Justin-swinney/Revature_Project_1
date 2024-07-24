@@ -25,7 +25,6 @@ public class EmployeeService {
     }
 
     // TODO: ADD MORE VALIDATION
-
     public ReimbursementCreationDto createReimbursement(ReimbursementCreationDto reimbursementCreationDto, UUID employeeId) {
         if (!userRepository.existsById(employeeId)) {
             throw new UserIdNotFoundException("User ID not found!");
@@ -38,10 +37,9 @@ public class EmployeeService {
         reimbursement.setUser(user);
         reimbursementRepository.save(reimbursement);
         return reimbursementCreationDto;
-
-
     }
 
+    // TODO: ADD MORE VALIDATION
     public EmployeeReimbursementsDto getEmployeeReimbursements(UUID employeeId) {
         if (!userRepository.existsById(employeeId)) {
             throw new UserIdNotFoundException("User ID not found!");
@@ -55,7 +53,6 @@ public class EmployeeService {
                 .orElseThrow(() -> new UserIdNotFoundException("User ID not found!"));
     }
 
-    // TODO: See all reimbursement tickets (only their own)
 
     // TODO: See only their pending reimbursement tickets
 
