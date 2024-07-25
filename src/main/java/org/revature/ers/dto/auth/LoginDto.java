@@ -1,5 +1,4 @@
-package org.revature.ers.dto;
-
+package org.revature.ers.dto.auth;
 
 import lombok.*;
 
@@ -8,9 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserRegistrationDto {
-    private String firstName;
-    private String lastName;
+public class LoginDto {
     private String username;
     private String password;
 }

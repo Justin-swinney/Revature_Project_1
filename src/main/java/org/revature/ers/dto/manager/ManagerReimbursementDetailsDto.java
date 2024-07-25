@@ -1,4 +1,4 @@
-package org.revature.ers.dto;
+package org.revature.ers.dto.manager;
 
 
 
@@ -17,5 +17,5 @@ public class ManagerReimbursementDetailsDto {
     private String description;
     private double amount;
     private String status;
-    private ManagerEmployeesDetailsDto managerEmployeesDetailsDto;
+    private ManagerReimbursementEmployeeDetailsDto managerReimbursementEmployeeDetailsDto;
 }

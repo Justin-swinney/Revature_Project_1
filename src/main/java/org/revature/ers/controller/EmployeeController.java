@@ -1,7 +1,6 @@
 package org.revature.ers.controller;
 
-import org.revature.ers.dto.ReimbursementCreationDto;
-import org.revature.ers.dto.EmployeeReimbursementsDto;
+import org.revature.ers.dto.employee.ReimbursementCreationDto;
 import org.revature.ers.exception.CustomException;
 import org.revature.ers.service.EmployeeService;
 
@@ -21,19 +20,28 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/{employeeId}/reimbursement/new")
-    public ResponseEntity<?> createReimbursement(@RequestBody ReimbursementCreationDto reimbursementCreationDto, @PathVariable UUID employeeId) {
+    @PostMapping("/{userId}/reimbursement/new")
+    public ResponseEntity<?> createReimbursement(@RequestBody ReimbursementCreationDto reimbursementCreationDto, @PathVariable UUID userId) {
         try {
-            ReimbursementCreationDto createdReimbursement = employeeService.createReimbursement(reimbursementCreationDto, employeeId);
+            ReimbursementCreationDto createdReimbursement = employeeService.createReimbursement(reimbursementCreationDto, userId);
             return ResponseEntity.ok(createdReimbursement);
         } catch (CustomException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
-    @GetMapping("/{employeeId}/reimbursements")
-    public ResponseEntity<?> getEmployeeReimbursements(@PathVariable UUID employeeId) {
+    @GetMapping("/{userId}/reimbursements")
+    public ResponseEntity<?> getEmployeeReimbursements(@PathVariable UUID userId) {
         try {
-            return ResponseEntity.ok(employeeService.getEmployeeReimbursements(employeeId));
+            return ResponseEntity.ok(employeeService.getEmployeeReimbursements(userId));
+        } catch (CustomException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{userId}/reimbursements/{status}")
+    public ResponseEntity<?> getEmployeeReimbursementsByStatus(@PathVariable UUID userId, @PathVariable String status) {
+        try {
+            return ResponseEntity.ok(employeeService.getAllReimbursementsByStatus(userId, status));
         } catch (CustomException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

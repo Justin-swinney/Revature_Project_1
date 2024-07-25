@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +33,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+
     @Column(name = "role")
-    private String role = "Employee";
+    private String role = "EMPLOYEE";
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

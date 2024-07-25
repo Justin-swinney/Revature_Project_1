@@ -1,19 +1,18 @@
-package org.revature.ers.dto;
+package org.revature.ers.dto.manager;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.revature.ers.model.Reimbursement;
 
-import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class EmployeeReimbursementsDto {
+public class ManagerReimbursementEmployeeDetailsDto {
     private UUID userId;
     private String firstName;
     private String lastName;
-    private List<Reimbursement> reimbursements;
 }

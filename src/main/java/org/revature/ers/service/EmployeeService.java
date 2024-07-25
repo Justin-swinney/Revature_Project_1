@@ -1,7 +1,7 @@
 package org.revature.ers.service;
 
-import org.revature.ers.dto.ReimbursementCreationDto;
-import org.revature.ers.dto.EmployeeReimbursementsDto;
+import org.revature.ers.dto.employee.ReimbursementCreationDto;
+import org.revature.ers.dto.employee.EmployeeReimbursementsDto;
 import org.revature.ers.exception.user.UserIdNotFoundException;
 import org.revature.ers.model.Reimbursement;
 import org.revature.ers.model.User;
@@ -10,7 +10,10 @@ import org.revature.ers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 @Service
 public class EmployeeService {
@@ -25,11 +28,11 @@ public class EmployeeService {
     }
 
     // TODO: ADD MORE VALIDATION
-    public ReimbursementCreationDto createReimbursement(ReimbursementCreationDto reimbursementCreationDto, UUID employeeId) {
-        if (!userRepository.existsById(employeeId)) {
+    public ReimbursementCreationDto createReimbursement(ReimbursementCreationDto reimbursementCreationDto, UUID userId) {
+        if (!userRepository.existsById(userId)) {
             throw new UserIdNotFoundException("User ID not found!");
         }
-        User user = userRepository.getReferenceById(employeeId);
+        User user = userRepository.getReferenceById(userId);
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(reimbursementCreationDto.getAmount());
         reimbursement.setDescription(reimbursementCreationDto.getDescription());
@@ -40,11 +43,11 @@ public class EmployeeService {
     }
 
     // TODO: ADD MORE VALIDATION
-    public EmployeeReimbursementsDto getEmployeeReimbursements(UUID employeeId) {
-        if (!userRepository.existsById(employeeId)) {
+    public EmployeeReimbursementsDto getEmployeeReimbursements(UUID userId) {
+        if (!userRepository.existsById(userId)) {
             throw new UserIdNotFoundException("User ID not found!");
         }
-        return userRepository.findById(employeeId)
+        return userRepository.findById(userId)
                 .map(user -> new EmployeeReimbursementsDto(
                         user.getUserId(),
                         user.getFirstName(),
@@ -53,8 +56,25 @@ public class EmployeeService {
                 .orElseThrow(() -> new UserIdNotFoundException("User ID not found!"));
     }
 
+    // TODO: ADD MORE VALIDATION
+    public List<EmployeeReimbursementsDto> getAllReimbursementsByStatus(UUID userId, String status) {
+        if (!userRepository.existsById(userId)) {
+            throw new UserIdNotFoundException("User ID not found!");
+        }
+        User user = userRepository.getReferenceById(userId);
+        return reimbursementRepository.findReimbursementByUserAndStatus(user, status).stream()
+                .map(reimbursement -> new EmployeeReimbursementsDto(
+                        reimbursement.getReimbId(),
+                        reimbursement.getUser().getFirstName(),
+                        reimbursement.getUser().getLastName(),
+                        reimbursement.getUser().getReimbursements()
+                )).collect(Collectors.toList());
+    }
 
-    // TODO: See only their pending reimbursement tickets
+
+
+
+
 
     // TODO: [Some other functionality of your choice]
 

@@ -1,4 +1,4 @@
-package org.revature.ers.dto;
+package org.revature.ers.dto.manager;
 
 import lombok.*;
 
@@ -13,4 +13,5 @@ public class ManagerEmployeesDetailsDto {
     private UUID userId;
     private String firstName;
     private String lastName;
+    private String role;
 }

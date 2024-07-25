@@ -1,14 +1,18 @@
 package org.revature.ers.service;
 
-import org.revature.ers.dto.ManagerEmployeesDetailsDto;
-import org.revature.ers.dto.ManagerReimbursementDetailsDto;
+import org.revature.ers.dto.manager.ManagerEmployeesDetailsDto;
+import org.revature.ers.dto.manager.ManagerReimbursementDetailsDto;
+import org.revature.ers.dto.manager.ManagerReimbursementEmployeeDetailsDto;
+import org.revature.ers.exception.CustomException;
 import org.revature.ers.model.Reimbursement;
+import org.revature.ers.model.User;
 import org.revature.ers.repository.ReimbursementRepository;
 import org.revature.ers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +33,8 @@ public class ManagerService {
                 .map(user -> new ManagerEmployeesDetailsDto(
                         user.getUserId(),
                         user.getFirstName(),
-                        user.getLastName()
+                        user.getLastName(),
+                        user.getRole()
                 ))
                 .collect(Collectors.toList());
     }
@@ -42,7 +47,7 @@ public class ManagerService {
                         reimbursement.getDescription(),
                         reimbursement.getAmount(),
                         reimbursement.getStatus(),
-                        new ManagerEmployeesDetailsDto(
+                        new ManagerReimbursementEmployeeDetailsDto(
                                 reimbursement.getUser().getUserId(),
                                 reimbursement.getUser().getFirstName(),
                                 reimbursement.getUser().getLastName()
@@ -50,14 +55,51 @@ public class ManagerService {
                 )).collect(Collectors.toList());
     }
 
+    // TODO: EXCEPTION HANDLING? AND POSSIBLE CHANGING CONTROLLER TO PATH PARAM ??
+    public List<ManagerReimbursementDetailsDto> getAllReimbursementByStatus(String status) {
+        return reimbursementRepository.findReimbursementByStatus(status.toUpperCase()).stream()
+                .map(reimbursement -> new ManagerReimbursementDetailsDto(
+                        reimbursement.getReimbId(),
+                        reimbursement.getDescription(),
+                        reimbursement.getAmount(),
+                        reimbursement.getStatus(),
+                        new ManagerReimbursementEmployeeDetailsDto(
+                                reimbursement.getUser().getUserId(),
+                                reimbursement.getUser().getFirstName(),
+                                reimbursement.getUser().getLastName()
+                        )
+                )).collect(Collectors.toList());
+    }
 
+    // TODO: ADD MORE VALIDATION
+   public void updateReimbursementStatus(UUID reimbId, String status) {
+        if (reimbursementRepository.existsById(reimbId)) {
+            Reimbursement reimbursement = reimbursementRepository.getReferenceById(reimbId);
+            reimbursement.setStatus(status);
+            reimbursementRepository.save(reimbursement);
+        }
+        else {
+            throw new CustomException("test");
+        }
+    }
 
-    // TODO: See all pending reimbursements
+    // TODO: ADD MORE VALIDATION
+    public void updateEmployeeRole(UUID userId, String role) {
+        if (userRepository.existsById(userId)) {
+            User user = userRepository.getReferenceById(userId);
+            user.setRole(role);
+            userRepository.save(user);
+        }
+        else {
+            throw new CustomException("ERROR IN ROLE TEST TEMP");
+        }
+    }
 
-    // TODO: Resolve a reimbursement (update status from PENDING to APPROVED or DENIED)
-
-
-    // TODO: Delete a User (should also delete any related reimbursements)
-
-    // TODO: OPTIONAL: Update an employee’s role to manager
+    // TODO: ADD MORE VALIDATION
+    public void deleteUser(UUID userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new CustomException("ID NOT FOUND TEMP PLACE HOLDER");
+        }
+         userRepository.deleteById(userId);
+    }
 }

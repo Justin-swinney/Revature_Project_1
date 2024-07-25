@@ -1,4 +1,4 @@
-package org.revature.ers.dto;
+package org.revature.ers.dto.employee;
 
 import lombok.*;
 
