@@ -1,14 +1,14 @@
 package org.revature.ers.dto.employee;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.revature.ers.model.Reimbursement;
 
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Getter
 @Setter
 public class EmployeeReimbursementsDto {

@@ -2,6 +2,7 @@ package org.revature.ers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 
@@ -32,7 +33,6 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
-
 
     @Column(name = "role")
     private String role = "EMPLOYEE";

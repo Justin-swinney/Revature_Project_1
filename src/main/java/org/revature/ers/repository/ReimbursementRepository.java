@@ -12,5 +12,12 @@ import java.util.UUID;
 public interface ReimbursementRepository extends JpaRepository<Reimbursement, UUID> {
 
     List<Reimbursement> findReimbursementByStatus(String status);
+
     List<Reimbursement> findReimbursementByUserAndStatus(User user, String status);
+
+    long countByUserAndStatus(User user, String status);
+
+    long countByStatus(String status);
+
+    List<Reimbursement> findTop5ByUserOrderByCreatedOnDesc(User user);
 }

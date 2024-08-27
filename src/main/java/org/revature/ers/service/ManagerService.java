@@ -34,7 +34,8 @@ public class ManagerService {
                         user.getUserId(),
                         user.getFirstName(),
                         user.getLastName(),
-                        user.getRole()
+                        user.getRole(),
+                        user.getUsername()
                 ))
                 .collect(Collectors.toList());
     }
@@ -47,6 +48,7 @@ public class ManagerService {
                         reimbursement.getDescription(),
                         reimbursement.getAmount(),
                         reimbursement.getStatus(),
+                        reimbursement.getCreatedOn(),
                         new ManagerReimbursementEmployeeDetailsDto(
                                 reimbursement.getUser().getUserId(),
                                 reimbursement.getUser().getFirstName(),
@@ -63,6 +65,7 @@ public class ManagerService {
                         reimbursement.getDescription(),
                         reimbursement.getAmount(),
                         reimbursement.getStatus(),
+                        reimbursement.getCreatedOn(),
                         new ManagerReimbursementEmployeeDetailsDto(
                                 reimbursement.getUser().getUserId(),
                                 reimbursement.getUser().getFirstName(),
@@ -79,7 +82,7 @@ public class ManagerService {
             reimbursementRepository.save(reimbursement);
         }
         else {
-            throw new CustomException("test");
+            throw new CustomException("ERROR");
         }
     }
 
@@ -101,5 +104,9 @@ public class ManagerService {
             throw new CustomException("ID NOT FOUND TEMP PLACE HOLDER");
         }
          userRepository.deleteById(userId);
+    }
+
+    public long getAllReimbursementCountByStatus(String status) {
+        return reimbursementRepository.countByStatus(status);
     }
 }

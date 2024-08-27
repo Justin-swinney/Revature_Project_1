@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,5 +18,6 @@ public class ManagerReimbursementDetailsDto {
     private String description;
     private double amount;
     private String status;
+    private Date createdOn;
     private ManagerReimbursementEmployeeDetailsDto managerReimbursementEmployeeDetailsDto;
 }

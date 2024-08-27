@@ -1,4 +1,4 @@
-package org.revature.ers.dto.manager;
+package org.revature.ers.dto.auth;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class ManagerEmployeesDetailsDto {
+public class LoginResponse {
     private UUID userId;
     private String firstName;
     private String lastName;

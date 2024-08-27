@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -25,10 +26,19 @@ public class Reimbursement {
     private double amount;
 
     @Column(name = "status")
-    private String status = "PENDING";
+    private String status;
+
+    @Column(updatable = false)
+    private Date createdOn;
 
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @PrePersist
+    protected void onCreate() {
+        status = "PENDING";
+        createdOn = new Date();
+    }
 }
